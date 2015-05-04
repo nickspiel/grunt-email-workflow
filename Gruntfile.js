@@ -38,13 +38,19 @@ module.exports = function(grunt) {
 
 			// Replace compiled template images sources from ../src/html to ../dist/html
 			replace: {
-				tables: {
+				clean: {
 					options: {
 						usePrefix: false,
 						patterns: [
 							{
+								// Strip extra padding and spacing from all tables
 								match: /(<table)/gi,
 								replacement: '$1 cellpadding="0" cellspacing="0"'
+							},
+							{
+								// Remove link tags 
+								match: /<link.*\/>/gi,
+								replacement: ''
 							}
 						]
 					},
@@ -55,24 +61,6 @@ module.exports = function(grunt) {
 						dest: '<%= paths.dist %>'
 					}]
 				}
-				// cm: {
-				// 	options: {
-				// 		usePrefix: false,
-				// 		patterns: [
-				// 			{
-				// 				match: /(<!--<)(singleline)(.*)(>-->)(.*)(<!--<\/singleline>-->)/gi,
-				// 				//match: /(singleline)/gi,
-				// 				replacement: '<$2$3>$5</$2>'
-				// 			}
-				// 		]
-				// 	},
-				// 	files: [{
-				// 		expand: true,
-				// 		flatten: true,
-				// 		src: ['<%= paths.dist %>/*.html'],
-				// 		dest: '<%= paths.dist %>'
-				// 	}]
-				// }
 			},
 
 			premailer: {
@@ -176,7 +164,7 @@ module.exports = function(grunt) {
 		grunt.loadNpmTasks('grunt-replace');
 		grunt.loadNpmTasks('grunt-zip');
 
-		grunt.registerTask('default', ['sass','assemble','premailer','imagemin','replace:tables', 'zip']);
+		grunt.registerTask('default', ['sass','assemble','premailer','imagemin','replace:clean', 'zip']);
 
 		grunt.registerTask('send', ['mailgun']);
 };
