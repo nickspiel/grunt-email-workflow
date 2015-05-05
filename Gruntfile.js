@@ -167,6 +167,8 @@ module.exports = function(grunt) {
 		grunt.registerTask('default', ['sass','assemble','premailer','imagemin','replace:clean', 'zip']);
 
 		grunt.registerTask('send', ['mailgun']);
+
+		grunt.registerTask('test', ['mailgun', 'litmus']);
 };
 
 // TODO: Email validation
