@@ -1,0 +1,90 @@
+//-------------------------------------------- Global
+
+body,
+html {
+	margin: 0;
+	padding: 0;
+	-ms-text-size-adjust: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+}
+
+.preheader {
+	display: block;
+	text-align: center;
+	font-size: 8pt;
+	color: #bbbbbb;
+}
+
+table,
+td,
+div,
+a {
+	box-sizing: border-box;
+}
+
+a img {
+	border: 0 none;
+}
+
+img {
+	-ms-interpolation-mode: bicubic;
+	max-width: 100%;
+	border: 0 none;
+	height: auto;
+	line-height: 100%;
+	outline: none;
+	text-decoration: none;
+}
+
+//-------------------------------------------- Tables
+
+table {
+	table-layout: fixed;
+	border-collapse: separate !important;
+	mso-table-lspace: 0pt;
+	mso-table-rspace: 0pt;
+}
+
+table, 
+td {
+	border-collapse:collapse;
+}
+
+//-------------------------------------------- Client specific
+
+//---------------------- Outlook
+
+.ExternalClass {
+	width: 100%;
+	line-height: 100%;
+	p,
+	span,
+	font,
+	td,
+	div {
+		line-height: 100%;
+	}
+}
+
+//---------------------- Gmail 
+
+.body-table {
+	width: 100% !important;
+	height: 100% !important;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	-ms-text-size-adjust: 100%;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-size-adjust: 100%;
+}
