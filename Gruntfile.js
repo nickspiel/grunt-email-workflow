@@ -1,10 +1,11 @@
 module.exports = function(grunt) {
-
+	
 		grunt.initConfig({
 
 			pkg: grunt.file.readJSON('package.json'),
 			secrets: grunt.file.readJSON('secrets.json'),
 
+			// Global paths
 			paths: {
 				src:        'src',
 				src_img:    'src/images',
@@ -12,17 +13,19 @@ module.exports = function(grunt) {
 				dist_img:   'dist/images'
 			},
 
+			// Compile scss
 			sass: {
 				dist: {
 					options: {
 						style: 'expanded'
 					},
 					files: {
-						'<%= paths.src %>/css/main.css': '<%= paths.src %>/css/scss/main.scss'
+						'<%= paths.src %>/styles/main.css': '<%= paths.src %>/styles/main.scss'
 					}
 				}
 			},
 
+			// Assemble email templates
 			assemble: {
 				options: {
 					layoutdir: '<%= paths.src %>/layouts',
@@ -63,6 +66,7 @@ module.exports = function(grunt) {
 				}
 			},
 
+			// Inline css
 			premailer: {
 				html: {
 					options: {
@@ -108,7 +112,7 @@ module.exports = function(grunt) {
 
 			// Watches for changes to css or email templates then runs grunt tasks
 			watch: {
-				files: ['<%= paths.src %>/css/scss/*','<%= paths.src %>/emails/*','<%= paths.src %>/layouts/*','<%= paths.src %>/partials/*','<%= paths.src %>/data/*'],
+				files: ['<%= paths.src %>/styles/*.scss','<%= paths.src %>/emails/*','<%= paths.src %>/layouts/*','<%= paths.src %>/partials/*','<%= paths.src %>/data/*'],
 				tasks: ['default'],
 				options: {
 					livereload: true,
@@ -116,7 +120,7 @@ module.exports = function(grunt) {
 				}
 			},
 
-			// grunt send --template=transaction.html
+			// Send email text: grunt send --template=placeholder.html
 			mailgun: {
 				mailer: {
 					options: {
@@ -129,7 +133,7 @@ module.exports = function(grunt) {
 				}
 			},
 
-			// grunt litmus --template=spot-specials.html
+			// Test email in Litmus: grunt litmus --template=placeholder.html
 			litmus: {
 				test: {
 					src: ['<%= paths.dist %>/'+grunt.option('template')],
@@ -144,7 +148,7 @@ module.exports = function(grunt) {
 				}
 			},
 
-			// make a zipfile
+			// Make a zipfile of all images
 			zip: {
 				images: {
 					cwd: 'dist/',
@@ -153,23 +157,14 @@ module.exports = function(grunt) {
 				}
 			}
 		});
+		
+		// Load all tasks
+	    require('load-grunt-tasks')(grunt, {pattern: ['grunt-*','assemble']});
 
-		grunt.loadNpmTasks('grunt-contrib-sass');
-		grunt.loadNpmTasks('assemble');
-		grunt.loadNpmTasks('grunt-mailgun');
-		grunt.loadNpmTasks('grunt-premailer');
-		grunt.loadNpmTasks('grunt-contrib-watch');
-		grunt.loadNpmTasks('grunt-litmus');
-		grunt.loadNpmTasks('grunt-contrib-imagemin');
-		grunt.loadNpmTasks('grunt-replace');
-		grunt.loadNpmTasks('grunt-zip');
-
+		// Register tasks
 		grunt.registerTask('default', ['sass','assemble','premailer','imagemin','replace:clean', 'zip']);
 
 		grunt.registerTask('send', ['mailgun']);
 
 		grunt.registerTask('test', ['mailgun', 'litmus']);
 };
-
-// TODO: Email validation
-// TODO: Campaign monitor conversion
