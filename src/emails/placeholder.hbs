@@ -4,4 +4,8 @@ subject: Placeholder
 ---
 
 {{> tick }}
-<p>If you can see a tick you are ready to rock!</p>
+{{#if global.message }}
+<p>{{ global.message }}</p>
+{{else}}
+<p>Cannot read from the the data file, please check it exists.</p>
+{{/if}}
